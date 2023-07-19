@@ -1,0 +1,86 @@
+import React, {useState, useEffect} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, TextInput, View, FlatList } from 'react-native';
+
+export default function App() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+useEffect(()=>{
+fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response=>response.json())
+    .then(data=>{
+        setUsers(data)
+        setLoading(false)
+      })
+    
+      // fetch('https://jsonplaceholder.typicode.com/users')
+
+    // fetch('https://63c46ee4a908563575371e15.mockapi.io/users/90', {method: 'GET'})
+//   .then(response => response.json())
+//   .then(data => console.log(data))
+//   .catch(error => console.error(error));
+
+// fetch('https://63c46ee4a908563575371e15.mockapi.io/users', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ createdAt: "01-01-2023", name: 'Curso de Jueves por la noche', avatar:"https://fakeimg.pl/350x200/?text=MAUI" })
+//   })
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error(error));
+
+// fetch('https://63c46ee4a908563575371e15.mockapi.io/users/101', {
+//     method: 'PUT',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ name: 'Noche de Jueves' })
+//   })
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error(error));
+
+// fetch('https://63c46ee4a908563575371e15.mockapi.io/users/101', {
+//   method: 'DELETE',
+//   headers: { 'Content-Type': 'application/json' }
+// })
+//   .then(response=>response.json())
+//   .then(data=>{
+//     setUsers(data)
+//     setLoading(false)
+//     alert("Borrado con exito")
+//   })
+//   .catch(alert("Error"));
+    
+  }, [])
+
+  if(loading){
+    <View style={styles.center}><Text>Cargando...</Text></View>
+  }
+  return (
+    <View style={styles.container}>
+
+    {/* <Text>{users.name}</Text> */}
+     
+     <FlatList
+        data={users}
+        renderItem={({item}) => <Text>{item.name}</Text> }
+        keyExtractor={item => String(item.id)}     
+     ></FlatList>
+
+     </View>
+  );
+  }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }, 
+  center: {
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+  }
+});
